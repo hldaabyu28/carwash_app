@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:carwash_app/core/constants/api_constant.dart';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class AuthService {
-  static const String baseUrl = "http://192.168.1.5/carwash";
+  static const String baseUrl = ApiConstant.baseUrl;
 
   Future<Map<String, dynamic>> login(User user) async {
     final response = await http.post(

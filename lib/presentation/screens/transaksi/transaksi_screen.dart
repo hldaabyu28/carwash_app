@@ -11,97 +11,432 @@ class TransaksiScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Get.offAllNamed('/home')
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Get.offAllNamed('/home'),
         ),
-        title: Text('Transaksi'),
+        title: Text(
+          'Transaksi',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.blue[600],
+        elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              controller.fetchTransaksi();
+              // TODO: Implement search functionality
+              Get.snackbar(
+                'Info',
+                'Fitur pencarian akan segera tersedia',
+                backgroundColor: Colors.blue[100],
+                colorText: Colors.blue[800],
+              );
             },
           ),
         ],
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        return ListView.builder(
-          itemCount: controller.transaksiList.length,
-          itemBuilder: (context, index) {
-            final transaksi = controller.transaksiList[index];
-            return Card(
-              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: ListTile(
-                title: Text(transaksi.pemilik),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(transaksi.noBuktiTransaksi),
-                    Text(
-                      'No. Polisi: ${transaksi.noPolisi}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
-                    Text(
-                      'Tarif: Rp ${transaksi.tarif}',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                onTap: () => Get.to(DetailTransaksi(transaksi: transaksi)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () => Get.to(UpdateTransaksiScreen(transaksi: transaksi)),
-                      tooltip: 'Edit Transaksi',
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _showDeleteDialog(context, transaksi.id),
-                      tooltip: 'Hapus Transaksi',
-                    ),
-                  ],
-                ),
+      body: Column(
+        children: [
+          // Header Statistics
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue[600]!, Colors.blue[400]!],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-            );
-          },
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: Obx(() => Row(
+                children: [
+                  Expanded(
+                    child: _buildStatCard(
+                      'Total Transaksi',
+                      controller.transaksiList.length.toString(),
+                      Icons.receipt_long,
+                      Colors.white,
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Expanded(
+                    child: _buildStatCard(
+                      'Hari Ini',
+                      _getTodayTransactionCount().toString(),
+                      Icons.today,
+                      Colors.white,
+                    ),
+                  ),
+                ],
+              )),
+            ),
+          ),
+
+          // Transaction List
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                controller.fetchTransaksi();
+              },
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[600]!),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Memuat transaksi...',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                if (controller.transaksiList.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.receipt_long_outlined,
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Belum ada transaksi',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Tambahkan transaksi pertama Anda',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                        SizedBox(height: 24),
+                        ElevatedButton.icon(
+                          onPressed: () => Get.to(CreateTransaksiScreen()),
+                          icon: Icon(Icons.add),
+                          label: Text('Tambah Transaksi'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[600],
+                            foregroundColor: Colors.white,
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: controller.transaksiList.length,
+                  itemBuilder: (context, index) {
+                    final transaksi = controller.transaksiList[index];
+                    return _buildTransactionCard(transaksi, index);
+                  },
+                );
+              }),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Get.to(CreateTransaksiScreen());
         },
-        child: Icon(Icons.add),
+        icon: Icon(Icons.add),
+        label: Text('Tambah'),
+        backgroundColor: Colors.blue[600],
+        foregroundColor: Colors.white,
+        elevation: 4,
       ),
+    );
+  }
+
+  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white.withOpacity(0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 24),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: color.withOpacity(0.8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionCard(dynamic transaksi, int index) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: InkWell(
+          onTap: () => Get.to(DetailTransaksi(transaksi: transaksi)),
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header Row
+                Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.local_car_wash,
+                          color: Colors.blue[600],
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transaksi.pemilik,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            transaksi.noBuktiTransaksi,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.green[100],
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        'Selesai',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.green[700],
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                
+                SizedBox(height: 12),
+                
+                // Details Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildDetailItem(
+                        Icons.directions_car,
+                        'No. Polisi',
+                        transaksi.noPolisi,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: _buildDetailItem(
+                        Icons.attach_money,
+                        'Tarif',
+                        'Rp ${_formatCurrency(transaksi.tarif)}',
+                      ),
+                    ),
+                  ],
+                ),
+                
+                SizedBox(height: 16),
+                
+                // Action Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () => Get.to(UpdateTransaksiScreen(transaksi: transaksi)),
+                      icon: Icon(Icons.edit, size: 16),
+                      label: Text('Edit'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue[600],
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    TextButton.icon(
+                      onPressed: () => _showDeleteDialog(Get.context!, transaksi.id),
+                      icon: Icon(Icons.delete, size: 16),
+                      label: Text('Hapus'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.red[600],
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailItem(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey[600]),
+        SizedBox(width: 6),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey[600],
+                ),
+              ),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   void _showDeleteDialog(BuildContext context, int id) {
     Get.dialog(
       AlertDialog(
-        title: Text('Konfirmasi Hapus'),
-        content: Text('Apakah Anda yakin ingin menghapus transaksi ini?'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.warning, color: Colors.red[600]),
+            SizedBox(width: 8),
+            Text('Konfirmasi Hapus'),
+          ],
+        ),
+        content: Text('Apakah Anda yakin ingin menghapus transaksi ini? Tindakan ini tidak dapat dibatalkan.'),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
             child: Text('Batal'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.grey[600],
+            ),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               Get.back();
               controller.deleteTransaksi(id);
+              Get.snackbar(
+                'Berhasil',
+                'Transaksi berhasil dihapus',
+                backgroundColor: Colors.green[100],
+                colorText: Colors.green[800],
+                icon: Icon(Icons.check_circle, color: Colors.green[800]),
+              );
             },
-            child: Text('Hapus', style: TextStyle(color: Colors.red)),
+            child: Text('Hapus'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red[600],
+              foregroundColor: Colors.white,
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  int _getTodayTransactionCount() {
+    final today = DateTime.now();
+    return controller.transaksiList.where((transaksi) {
+      return true; 
+    }).length;
+  }
+
+  String _formatCurrency(dynamic amount) {
+    if (amount == null) return '0';
+    return amount.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
     );
   }
 }

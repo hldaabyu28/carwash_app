@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:carwash_app/core/constants/api_constant.dart';
 import 'package:carwash_app/data/models/create_transaksi_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import '../models/transaksi_model.dart';
 
 class TransaksiService {
-  static const String baseUrl = "http://192.168.1.5/carwash";
+  static const String baseUrl = ApiConstant.baseUrl;
 
   Future<void> createTransaksi(
       CreateTransaksiModel transaksi, XFile? image) async {

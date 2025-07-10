@@ -1,10 +1,18 @@
 import 'package:carwash_app/data/services/auth_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/models/user_model.dart';
 
 class AuthController extends GetxController {
   final AuthService authService = AuthService();
   var isLoading = false.obs;
+
+  Rx<User?> currentUser = Rx<User?>(null);
+
+  // Method untuk set user setelah login berhasil
+  void setCurrentUser(User user) {
+    currentUser.value = user;
+  }
 
   void login(String username, String password) async {
     if (username.isEmpty || password.isEmpty) {
@@ -50,18 +58,14 @@ class AuthController extends GetxController {
       );
 
       final response = await authService.register(user);
-
-      if (response['success'] == true) {
-        Get.snackbar("Berhasil", response['message'] ?? "Registrasi berhasil");
-        Get.offAllNamed('/login');
-      } else {
-        Get.snackbar("Gagal", response['message'] ?? "Registrasi gagal");
-      }
+      Get.snackbar("Success", response['message'],
+          backgroundColor: Colors.green);
+      Get.offAllNamed('/login');
     } catch (e) {
       Get.snackbar("Error", e.toString());
     } finally {
       isLoading(false); // Selesai loading
-    } 
+    }
   }
 
   void logout() {
