@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:carwash_app/presentation/controllers/transaksi_controller.dart';
-import 'package:carwash_app/models/create_transaksi_model.dart';
-import 'package:carwash_app/models/transaksi_model.dart';
+import 'package:carwash_app/data/models/create_transaksi_model.dart';
+import 'package:carwash_app/data/models/transaksi_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,6 +1,6 @@
-import 'package:carwash_app/services/auth_service.dart';
+import 'package:carwash_app/data/services/auth_service.dart';
 import 'package:get/get.dart';
-import '../../models/user_model.dart';
+import '../../data/models/user_model.dart';
 
 class AuthController extends GetxController {
   final AuthService authService = AuthService();

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:carwash_app/models/create_transaksi_model.dart';
+import 'package:carwash_app/data/models/create_transaksi_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import '../models/transaksi_model.dart';

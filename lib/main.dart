@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Carwash App',
-      initialRoute: '/login',
+      initialRoute: '/splash',
       getPages: AppRoute.routes,
     );
   }

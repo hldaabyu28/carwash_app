@@ -1,4 +1,4 @@
-import 'package:carwash_app/models/transaksi_model.dart';
+import 'package:carwash_app/data/models/transaksi_model.dart';
 import 'package:flutter/material.dart';
 
 class DetailTransaksi extends StatelessWidget {

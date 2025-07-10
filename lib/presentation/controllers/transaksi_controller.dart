@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:carwash_app/models/create_transaksi_model.dart';
-import 'package:carwash_app/services/transaksi_service.dart';
+import 'package:carwash_app/data/models/create_transaksi_model.dart';
+import 'package:carwash_app/data/services/transaksi_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../models/transaksi_model.dart';
+import '../../data/models/transaksi_model.dart';
 
 class TransaksiController extends GetxController {
   final TransaksiService transaksiService = TransaksiService();
