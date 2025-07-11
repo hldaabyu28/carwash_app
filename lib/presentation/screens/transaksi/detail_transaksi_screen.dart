@@ -1,4 +1,6 @@
 import 'package:carwash_app/core/constants/api_constant.dart';
+import 'package:carwash_app/core/theme/color_theme.dart';
+import 'package:carwash_app/core/theme/font_theme.dart';
 import 'package:carwash_app/data/models/transaksi_model.dart';
 import 'package:flutter/material.dart';
 
@@ -21,26 +23,12 @@ class DetailTransaksi extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: ColorTheme.primaryColor,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
-            onPressed: () {
-              // TODO: Implement share functionality
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Fitur share akan segera tersedia'),
-                  backgroundColor: Colors.blue[600],
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -50,7 +38,7 @@ class DetailTransaksi extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue[600]!, Colors.blue[400]!],
+                  colors: [ColorTheme.primaryColor, ColorTheme.secondaryColor],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -85,20 +73,16 @@ class DetailTransaksi extends StatelessWidget {
                           SizedBox(height: 12),
                           Text(
                             'No. Transaksi',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500,
+                            style: FontTheme.bodyText1.copyWith(
+                              fontSize: 18,
                             ),
                           ),
                           SizedBox(height: 4),
                           Text(
                             transaksi.noBuktiTransaksi,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
-                            ),
+                            style: FontTheme.headline2.copyWith(
+                              fontSize: 18
+                            )
                           ),
                           SizedBox(height: 12),
                           Container(
@@ -164,14 +148,14 @@ class DetailTransaksi extends StatelessWidget {
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.blue[600]!, Colors.blue[400]!],
+                        colors: [ColorTheme.primaryColor, ColorTheme.secondaryColor],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: ColorTheme.primaryColor.withOpacity(0.3),
                           spreadRadius: 1,
                           blurRadius: 8,
                           offset: Offset(0, 4),
@@ -229,15 +213,13 @@ class DetailTransaksi extends StatelessWidget {
   Widget _buildSectionHeader(String title, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: Colors.blue[600], size: 20),
+        Icon(icon, color: ColorTheme.primaryColor, size: 20),
         SizedBox(width: 8),
         Text(
           title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
-          ),
+          style: FontTheme.headline2.copyWith(
+            fontSize: 18
+          )
         ),
       ],
     );
@@ -273,13 +255,13 @@ class DetailTransaksi extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: ColorTheme.primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,
               size: 16,
-              color: Colors.grey[600],
+              color: ColorTheme.primaryColor,
             ),
           ),
           SizedBox(width: 12),
@@ -289,20 +271,19 @@ class DetailTransaksi extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: FontTheme.bodyText1.copyWith(
+                    fontSize: 14,
+                    color: Colors.grey[700],
+                  )
                 ),
                 SizedBox(height: 2),
                 Text(
                   value,
-                  style: TextStyle(
+                  style: FontTheme.bodyText2.copyWith(
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
                     color: Colors.grey[800],
-                  ),
+                    fontWeight: FontWeight.w500,
+                  )
                 ),
               ],
             ),

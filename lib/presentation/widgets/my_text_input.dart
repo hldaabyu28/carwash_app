@@ -61,7 +61,7 @@ class MyTextInput extends StatefulWidget {
           obscureText: value,
           disabled: disabled,
           label: label,
-          hintText: hintText ,
+          hintText: hintText,
           labelStyle: labelStyle,
           fillColor: fillColor,
           borderColor: borderColor,
@@ -102,38 +102,34 @@ class _MyTextInputState extends State<MyTextInput> {
           Text(widget.label!, style: widget.labelStyle ?? FontTheme.bodyText1),
           const SizedBox(height: 8),
         ],
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: 45,
-            maxHeight: widget.isTextArea == true ? double.infinity : 45,
-          ),
-          child: TextFormField(
-            style: FontTheme.bodyText2,
-            controller: widget.controller,
-            obscureText: widget.obscureText ?? false,
-            enabled: !(widget.disabled ?? false),
-            validator: widget.validator,
-            maxLines: widget.isTextArea == true ? null : (widget.maxLines ?? 1),
-            minLines: widget.isTextArea == true ? 3 : (widget.minLines ?? 1),
-            keyboardType: widget.isTextArea == true
-                ? TextInputType.multiline
-                : (widget.keyboardType ?? TextInputType.text),
-            readOnly: widget.readOnly ?? false,
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              prefixIcon: widget.prefixIcon,
-              suffixIcon: widget.suffixIcon,
-              prefixIconColor: ColorTheme.primaryColor,
-              border: _buildBorder(),
-              focusedBorder: _buildBorder(),
-              enabledBorder: _buildBorder(),
-              disabledBorder: _buildBorder(),
-              filled: true,
-              fillColor: widget.fillColor ?? Colors.white,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+        TextFormField(
+          style: FontTheme.bodyText2,
+          controller: widget.controller,
+          obscureText: widget.obscureText ?? false,
+          enabled: !(widget.disabled ?? false),
+          validator: widget.validator ,
+          maxLines: widget.isTextArea == true ? null : (widget.maxLines ?? 1),
+          minLines: widget.isTextArea == true ? 3 : (widget.minLines ?? 1),
+          keyboardType: widget.isTextArea == true
+              ? TextInputType.multiline
+              : (widget.keyboardType ?? TextInputType.text),
+          readOnly: widget.readOnly ?? false,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.suffixIcon,
+            prefixIconColor: ColorTheme.primaryColor,
+            border: _buildBorder(),
+            focusedBorder: _buildBorder(),
+            enabledBorder: _buildBorder(),
+            disabledBorder: _buildBorder(),
+            filled: true,
+            isDense:
+                true, 
+            fillColor: widget.fillColor ?? Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
             ),
           ),
         ),

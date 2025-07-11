@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:carwash_app/core/constants/api_constant.dart';
+import 'package:carwash_app/core/theme/color_theme.dart';
+import 'package:carwash_app/core/theme/font_theme.dart';
 import 'package:carwash_app/presentation/controllers/transaksi_controller.dart';
 import 'package:carwash_app/data/models/create_transaksi_model.dart';
 import 'package:carwash_app/data/models/transaksi_model.dart';
@@ -68,13 +70,7 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Pilih Sumber Gambar',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text('Pilih Sumber Gambar', style: FontTheme.headline2),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -140,8 +136,8 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
             SizedBox(height: 8),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 14,
+              style: FontTheme.bodyText1.copyWith(
+                color: Colors.grey[800],
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -178,16 +174,17 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Edit Transaksi",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style: FontTheme.headline2.copyWith(
             color: Colors.white,
           ),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Get.offAllNamed('/transaksi'),
+        ),
+        backgroundColor: ColorTheme.primaryColor,
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -281,10 +278,8 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                       children: [
                         Text(
                           'Informasi Transaksi',
-                          style: TextStyle(
+                          style: FontTheme.headline2.copyWith(
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[800],
                           ),
                         ),
                         SizedBox(height: 20),
@@ -388,10 +383,8 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                             SizedBox(width: 8),
                             Text(
                               'Gambar Transaksi',
-                              style: TextStyle(
+                              style: FontTheme.headline2.copyWith(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[800],
                               ),
                             ),
                           ],
@@ -432,12 +425,12 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                                                 ),
                                                 SizedBox(height: 8),
                                                 Text(
-                                                  'Gambar tidak dapat dimuat',
-                                                  style: TextStyle(
-                                                    color: Colors.grey[600],
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
+                                                    'Gambar tidak dapat dimuat',
+                                                    style: FontTheme.headline2
+                                                        .copyWith(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 14,
+                                                    )),
                                               ],
                                             ),
                                           );
@@ -475,7 +468,7 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                               ? 'Ganti Gambar'
                               : 'Pilih Gambar',
                           onPressed: _pickImage,
-                          leading: Icon(Icons.image),
+                          leading: Icon(Icons.image, color: Colors.white),
                         ),
                       ],
                     ),
@@ -487,7 +480,7 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                   MyButton(
                     label: 'Simpan Perubahan',
                     onPressed: _submitForm,
-                    leading: Icon(Icons.save),
+                    leading: Icon(Icons.save, color: Colors.white),
                   ),
 
                   SizedBox(height: 20),

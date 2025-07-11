@@ -1,7 +1,10 @@
+import 'package:carwash_app/core/theme/color_theme.dart';
+import 'package:carwash_app/core/theme/font_theme.dart';
 import 'package:carwash_app/presentation/controllers/transaksi_controller.dart';
 import 'package:carwash_app/presentation/screens/transaksi/create_transaksi_screen.dart';
 import 'package:carwash_app/presentation/screens/transaksi/detail_transaksi_screen.dart';
 import 'package:carwash_app/presentation/screens/transaksi/update_transaksi.dart';
+import 'package:carwash_app/presentation/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,29 +20,13 @@ class TransaksiScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Get.offAllNamed('/home'),
         ),
-        title: Text(
-          'Transaksi',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.blue[600],
+        title: Text('Transaksi',
+            style: FontTheme.headline1.copyWith(
+              color: Colors.white,
+              fontSize: 20,
+            )),
+        backgroundColor: ColorTheme.primaryColor,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              // TODO: Implement search functionality
-              Get.snackbar(
-                'Info',
-                'Fitur pencarian akan segera tersedia',
-                backgroundColor: Colors.blue[100],
-                colorText: Colors.blue[800],
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -48,7 +35,7 @@ class TransaksiScreen extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue[600]!, Colors.blue[400]!],
+                colors: [ColorTheme.primaryColor, ColorTheme.secondaryColor],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -56,26 +43,26 @@ class TransaksiScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Obx(() => Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard(
-                      'Total Transaksi',
-                      controller.transaksiList.length.toString(),
-                      Icons.receipt_long,
-                      Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: _buildStatCard(
-                      'Hari Ini',
-                      _getTodayTransactionCount().toString(),
-                      Icons.today,
-                      Colors.white,
-                    ),
-                  ),
-                ],
-              )),
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          'Total Transaksi',
+                          controller.transaksiList.length.toString(),
+                          Icons.receipt_long,
+                          Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: _buildStatCard(
+                          'Hari Ini',
+                          _getTodayTransactionCount().toString(),
+                          Icons.today,
+                          Colors.white,
+                        ),
+                      ),
+                    ],
+                  )),
             ),
           ),
 
@@ -92,7 +79,8 @@ class TransaksiScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[600]!),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue[600]!),
                         ),
                         SizedBox(height: 16),
                         Text(
@@ -106,46 +94,24 @@ class TransaksiScreen extends StatelessWidget {
 
                 if (controller.transaksiList.isEmpty) {
                   return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.receipt_long_outlined,
-                          size: 80,
-                          color: Colors.grey[400],
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Belum ada transaksi',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[600],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.receipt_long_outlined,
+                            size: 80,
+                            color: Colors.grey[400],
                           ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Tambahkan transaksi pertama Anda',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[500],
-                          ),
-                        ),
-                        SizedBox(height: 24),
-                        ElevatedButton.icon(
-                          onPressed: () => Get.to(CreateTransaksiScreen()),
-                          icon: Icon(Icons.add),
-                          label: Text('Tambah Transaksi'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[600],
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ],
+                          SizedBox(height: 16),
+                          Text('Belum ada transaksi',
+                              style: FontTheme.headline1),
+                          SizedBox(height: 8),
+                          Text('Tambahkan transaksi pertama Anda',
+                              style: FontTheme.bodyText1),
+                        ],
+                      ),
                     ),
                   );
                 }
@@ -169,14 +135,15 @@ class TransaksiScreen extends StatelessWidget {
         },
         icon: Icon(Icons.add),
         label: Text('Tambah'),
-        backgroundColor: Colors.blue[600],
+        backgroundColor: ColorTheme.primaryColor,
         foregroundColor: Colors.white,
         elevation: 4,
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -194,17 +161,17 @@ class TransaksiScreen extends StatelessWidget {
               children: [
                 Text(
                   value,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                  style: FontTheme.headline1.copyWith(
                     color: color,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: color.withOpacity(0.8),
+                  style: FontTheme.bodyText1.copyWith(
+                    color: Colors.white,
+                    fontSize: 14,
                   ),
                 ),
               ],
@@ -238,13 +205,13 @@ class TransaksiScreen extends StatelessWidget {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.blue[100],
+                        color: ColorTheme.secondaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
                         child: Icon(
                           Icons.local_car_wash,
-                          color: Colors.blue[600],
+                          color: ColorTheme.primaryColor,
                           size: 20,
                         ),
                       ),
@@ -256,16 +223,15 @@ class TransaksiScreen extends StatelessWidget {
                         children: [
                           Text(
                             transaksi.pemilik,
-                            style: TextStyle(
-                              fontSize: 16,
+                            style: FontTheme.headline1.copyWith(
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
                             ),
                           ),
                           SizedBox(height: 2),
                           Text(
                             transaksi.noBuktiTransaksi,
-                            style: TextStyle(
+                            style: FontTheme.bodyText1.copyWith(
                               fontSize: 12,
                               color: Colors.grey[600],
                             ),
@@ -290,9 +256,9 @@ class TransaksiScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 SizedBox(height: 12),
-                
+
                 // Details Row
                 Row(
                   children: [
@@ -313,30 +279,34 @@ class TransaksiScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 SizedBox(height: 16),
-                
+
                 // Action Buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton.icon(
-                      onPressed: () => Get.to(UpdateTransaksiScreen(transaksi: transaksi)),
+                      onPressed: () =>
+                          Get.to(UpdateTransaksiScreen(transaksi: transaksi)),
                       icon: Icon(Icons.edit, size: 16),
                       label: Text('Edit'),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue[600],
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       ),
                     ),
                     SizedBox(width: 8),
                     TextButton.icon(
-                      onPressed: () => _showDeleteDialog(Get.context!, transaksi.id),
+                      onPressed: () =>
+                          _showDeleteDialog(Get.context!, transaksi.id),
                       icon: Icon(Icons.delete, size: 16),
                       label: Text('Hapus'),
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.red[600],
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       ),
                     ),
                   ],
@@ -393,7 +363,8 @@ class TransaksiScreen extends StatelessWidget {
             Text('Konfirmasi Hapus'),
           ],
         ),
-        content: Text('Apakah Anda yakin ingin menghapus transaksi ini? Tindakan ini tidak dapat dibatalkan.'),
+        content: Text(
+            'Apakah Anda yakin ingin menghapus transaksi ini? Tindakan ini tidak dapat dibatalkan.'),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
@@ -406,13 +377,6 @@ class TransaksiScreen extends StatelessWidget {
             onPressed: () {
               Get.back();
               controller.deleteTransaksi(id);
-              Get.snackbar(
-                'Berhasil',
-                'Transaksi berhasil dihapus',
-                backgroundColor: Colors.green[100],
-                colorText: Colors.green[800],
-                icon: Icon(Icons.check_circle, color: Colors.green[800]),
-              );
             },
             child: Text('Hapus'),
             style: ElevatedButton.styleFrom(
@@ -428,15 +392,15 @@ class TransaksiScreen extends StatelessWidget {
   int _getTodayTransactionCount() {
     final today = DateTime.now();
     return controller.transaksiList.where((transaksi) {
-      return true; 
+      return true;
     }).length;
   }
 
   String _formatCurrency(dynamic amount) {
     if (amount == null) return '0';
     return amount.toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]}.',
-    );
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]}.',
+        );
   }
 }
