@@ -239,19 +239,15 @@ class _UpdateTransaksiScreenState extends State<UpdateTransaksiScreen> {
                         SizedBox(height: 8),
                         Text(
                           'Edit Transaksi',
-                          style: TextStyle(
+                          style: FontTheme.headline1.copyWith(
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[800],
                           ),
                         ),
                         SizedBox(height: 4),
                         Text(
                           'Perbarui informasi transaksi',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
+                          style: FontTheme.bodyText2,
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

@@ -1,3 +1,5 @@
+import 'package:carwash_app/core/theme/color_theme.dart';
+import 'package:carwash_app/core/theme/font_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -70,21 +72,21 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = Theme.of(context).primaryColor ?? Colors.blue;
-    
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Text(
           'Pengaturan',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style: FontTheme.headline1.copyWith(
             color: Colors.white,
+            fontSize: 20,
           ),
         ),
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: ColorTheme.primaryColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Get.offAllNamed('/home'),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -111,15 +113,13 @@ class SettingsScreen extends StatelessWidget {
                   Icon(
                     Icons.settings,
                     size: 40,
-                    color: primaryColor,
+                    color: ColorTheme.primaryColor,
                   ),
                   SizedBox(height: 8),
                   Text(
                     'Pengaturan Aplikasi',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
+                    style: FontTheme.headline1.copyWith(
+                      fontSize: 20,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -133,9 +133,9 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             SizedBox(height: 24),
-            
+
             // Menu Items
             Text(
               'Akun',
@@ -146,7 +146,7 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12),
-            
+
             // Logout Button
             Container(
               decoration: BoxDecoration(
@@ -199,9 +199,9 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             Spacer(),
-            
+
             // Footer
             Center(
               child: Column(

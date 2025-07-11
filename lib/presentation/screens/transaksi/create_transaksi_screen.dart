@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:carwash_app/core/theme/color_theme.dart';
 import 'package:carwash_app/core/theme/font_theme.dart';
-import 'package:carwash_app/presentation/screens/transaksi/transaksi_screen.dart';
 import 'package:carwash_app/presentation/widgets/my_button.dart';
 import 'package:carwash_app/presentation/widgets/my_text_input.dart';
 import 'package:flutter/material.dart';
@@ -186,12 +186,12 @@ class _CreateTransaksiScreenState extends State<CreateTransaksiScreen> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: ColorTheme.primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.offAllNamed('/transaksi'),
         ),
       ),
       body: Obx(() {
@@ -362,7 +362,7 @@ class _CreateTransaksiScreenState extends State<CreateTransaksiScreen> {
                   SizedBox(height: 32),
 
                   // Image Section
-                 Container(
+                  Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -417,8 +417,7 @@ class _CreateTransaksiScreenState extends State<CreateTransaksiScreen> {
                                         color: Colors.grey[600],
                                       ),
                                     ),
-                                ),
-                               
+                                  ),
                           ),
                         ),
                         SizedBox(height: 16),
@@ -435,39 +434,13 @@ class _CreateTransaksiScreenState extends State<CreateTransaksiScreen> {
                     ),
                   ),
 
-                  
                   SizedBox(height: 32),
 
                   // Submit Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
+                  MyButton(
+                      label: 'Simpan Transaksi',
                       onPressed: _submitForm,
-                      icon: Icon(
-                        Icons.save,
-                        size: 24,
-                      ),
-                      label: Text(
-                        'Simpan Transaksi',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 3,
-                        shadowColor:
-                            Theme.of(context).primaryColor.withOpacity(0.3),
-                      ),
-                    ),
-                  ),
-
+                      leading: Icon(Icons.save, color: Colors.white)),
                   SizedBox(height: 20),
                 ],
               ),
