@@ -136,7 +136,7 @@ class DetailTransaksi extends StatelessWidget {
                   SizedBox(height: 24),
 
                   // Image Section
-                  _buildSectionHeader('Foto Kendaraan', Icons.photo_camera),
+                  _buildSectionHeader('Gambar Kendaraan', Icons.photo_camera),
                   SizedBox(height: 12),
                   _buildImageSection(apiConstant),
 
@@ -365,7 +365,7 @@ class DetailTransaksi extends StatelessWidget {
                         Icon(Icons.photo, size: 16, color: Colors.grey[600]),
                         SizedBox(width: 8),
                         Text(
-                          'Foto kendaraan saat pencucian',
+                          'Gambar kendaraan saat pencucian',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey[600],
@@ -396,7 +396,7 @@ class DetailTransaksi extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Foto kendaraan tidak tersedia',
+                      'Gambar kendaraan tidak tersedia',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[500],

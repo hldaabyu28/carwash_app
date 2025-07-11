@@ -386,7 +386,7 @@ class _CreateTransaksiScreenState extends State<CreateTransaksiScreen> {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              'Gambar Transaksi',
+                              'Gambar Kendaraan',
                               style: FontTheme.headline2.copyWith(
                                 fontSize: 18,
                               ),

@@ -196,18 +196,16 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 12),
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                style: FontTheme.headline1.copyWith(
+                  fontSize: 16
                 ),
               ),
               SizedBox(height: 4),
               Text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 12,
+                style: FontTheme.bodyText2.copyWith(
                   color: Colors.grey[600],
+                  fontSize: 12,
                 ),
                 textAlign: TextAlign.center,
               ),
